@@ -6,21 +6,29 @@ type Props = {
 
 export const Clock: React.FC<Props> = (props) => {
   const [time, setTime] = useState(new Date());
-  const prevProps = useRef(props);
 
   useEffect(() => {
     const timerId = window.setInterval(() => {
-      setTime(new Date());
+      const today = new Date();
+
+      setTime(today);
+      // eslint-disable-next-line no-console
+      console.info(today.toUTCString().slice(-12, -4));
     }, 1000);
+
+    return () => window.clearInterval(timerId);
+  }, []);
+
+  const prevProps = useRef(props);
+
+  useEffect(() => {
     const { clockName } = props;
 
     if (clockName !== prevProps.current.clockName) {
       // eslint-disable-next-line no-console
-      console.debug(`Renamed from ${prevProps.current.clockName} to ${clockName}`);
+      console.debug(`Renamed to ${clockName}`);
       prevProps.current = props;
     }
-
-    return () => window.clearInterval(timerId);
   }, [props.clockName]);
 
   return (
