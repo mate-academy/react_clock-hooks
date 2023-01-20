@@ -1,35 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
-export function getRandomName(): string {
-  const value = Date.now().toString().slice(-4);
-
-  return `Clock-${value}`;
-}
-
-export function getTime(): string {
+export function getTimeHelper(): string {
   return new Date().toUTCString().slice(-12, -4);
 }
 
-export const Clock: React.FC = () => {
-  const [today, setToday] = useState(getTime());
-  let clockName = 'Clock-0';
+type Props = {
+  name: string,
+};
 
-  // useEffect(() => {
-  //   window.setInterval(() => {
-  //     setToday(() => {
-  //       const now = getTime();
-
-  //       // eslint-disable-next-line no-console
-  //       console.info(now);
-
-  //       return now;
-  //     });
-  //   }, 1000);
-  // }, []);
+export const Clock: FC<Props> = ({
+  name: clockName,
+}) => {
+  const [today, setToday] = useState(getTimeHelper());
+  const [cachedClockName, setCachedClockName] = useState(clockName);
 
   useEffect(() => {
-    const timer = window.setInterval(() => {
-      const now = getTime();
+    const timerClockSeconds = window.setInterval(() => {
+      const now = getTimeHelper();
 
       // eslint-disable-next-line no-console
       console.info(now);
@@ -37,17 +24,17 @@ export const Clock: React.FC = () => {
     }, 1000);
 
     return () => {
-      window.clearInterval(timer);
+      window.clearInterval(timerClockSeconds);
     };
   }, []);
 
-  // This code starts a timer
-  const timerId = window.setInterval(() => {
-    clockName = getRandomName();
-  }, 3300);
-
-  // this code stops the timer
-  window.clearInterval(timerId);
+  useEffect(() => {
+    if (cachedClockName !== clockName) {
+      setCachedClockName(clockName);
+      // eslint-disable-next-line no-console
+      console.debug(`Renamed to ${clockName}`);
+    }
+  }, [clockName]);
 
   return (
     <div className="Clock">
