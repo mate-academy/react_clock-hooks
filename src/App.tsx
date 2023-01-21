@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
+import { Clock } from './Clock';
 
 function getRandomName(): string {
   const value = Date.now().toString().slice(-4);
@@ -8,32 +9,43 @@ function getRandomName(): string {
 }
 
 export const App: React.FC = () => {
-  const today = new Date();
-  let clockName = 'Clock-0';
+  const [clockname, setClockname] = useState('Clock-0');
+  const [hasClock, setHasClock] = useState(false);
 
-  // This code starts a timer
-  const timerId = window.setInterval(() => {
-    clockName = getRandomName();
-  }, 3300);
+  let timerId = 0;
 
-  // this code stops the timer
-  window.clearInterval(timerId);
+  const leftClickHandler = () => {
+    setHasClock(true);
+  };
+
+  const rightClickHandler = (event: MouseEvent) => {
+    event.preventDefault();
+
+    setHasClock(false);
+  };
+
+  useEffect(() => {
+    timerId = window.setInterval(() => {
+      setClockname(getRandomName());
+    }, 3300);
+
+    document.addEventListener('contextmenu', rightClickHandler);
+    document.addEventListener('click', leftClickHandler);
+
+    return () => {
+      document.removeEventListener('contextmenu', rightClickHandler);
+      document.removeEventListener('click', leftClickHandler);
+      window.clearInterval(timerId);
+    };
+  }, []);
 
   return (
     <div className="App">
-      <h1>React clock</h1>
+      <h1 className="App__title">That is not a clock..</h1>
 
-      <div className="Clock">
-        <strong className="Clock__name">
-          {clockName}
-        </strong>
-
-        {' time is '}
-
-        <span className="Clock__time">
-          {today.toUTCString().slice(-12, -4)}
-        </span>
-      </div>
+      {hasClock && (
+        <Clock name={clockname} />
+      )}
     </div>
   );
 };
