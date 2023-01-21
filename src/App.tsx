@@ -12,22 +12,33 @@ export const App: React.FC = () => {
   const [clockName, setClockName] = useState('Clock-0');
   const [hasClock, setHasClock] = useState(true);
 
-  document.addEventListener('contextmenu', (event) => {
-    event.preventDefault(); // not to show the context menu
-    setHasClock(false);
-  });
+  const rightClick = () => (
+    document.addEventListener('contextmenu', (event) => {
+      event.preventDefault();
+      setHasClock(false);
+    })
+  );
 
-  document.addEventListener('click', (event) => {
-    event.preventDefault();
-    setHasClock(true);
-  });
+  const leftClick = () => (
+    document.addEventListener('click', (event) => {
+      event.preventDefault();
+      setHasClock(true);
+    })
+  );
 
   useEffect(() => {
     const timerId = window.setInterval(() => {
       setClockName(getRandomName());
     }, 3300);
 
-    return () => window.clearInterval(timerId);
+    rightClick();
+    leftClick();
+
+    return () => {
+      window.clearInterval(timerId);
+      document.removeEventListener('contextmenu', rightClick);
+      document.removeEventListener('click', leftClick);
+    };
   });
 
   return (
