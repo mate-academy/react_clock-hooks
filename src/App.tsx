@@ -10,7 +10,7 @@ function getRandomName(): string {
 
 export const App: React.FC = () => {
   const [clockname, setClockname] = useState('Clock-0');
-  const [hasClock, setHasClock] = useState(false);
+  const [hasClock, setHasClock] = useState(true);
 
   let timerId = 0;
 
@@ -33,9 +33,9 @@ export const App: React.FC = () => {
     document.addEventListener('click', leftClickHandler);
 
     return () => {
+      window.clearInterval(timerId);
       document.removeEventListener('contextmenu', rightClickHandler);
       document.removeEventListener('click', leftClickHandler);
-      window.clearInterval(timerId);
     };
   }, []);
 
