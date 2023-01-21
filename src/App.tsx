@@ -22,7 +22,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (hasClock && clockName !== 'Clock-0') {
-      console.debug(clockName);
+      console.debug(`Renamed to ${clockName}`);
     }
   }, [clockName]);
 
