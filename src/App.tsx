@@ -29,7 +29,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (hasClock) {
-      console.info(new Date().toUTCString().slice(-12, -4));
+      console.info(time.toUTCString().slice(-12, -4));
     }
   }, [time]);
 
