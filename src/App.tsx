@@ -21,7 +21,7 @@ export const App: React.FC = () => {
   const onClick = () => setHasClock(true);
 
   useEffect(() => {
-    if (hasClock) {
+    if (hasClock && clockName !== 'Clock-0') {
       console.debug(clockName);
     }
   }, [clockName]);

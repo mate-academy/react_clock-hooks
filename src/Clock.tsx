@@ -13,7 +13,7 @@ export const Clock: React.FC<{ name: string }> = ({ name }) => {
     }, 1000);
 
     return () => window.clearInterval(timerId);
-  });
+  }, []);
 
   return (
     <div className="Clock">
