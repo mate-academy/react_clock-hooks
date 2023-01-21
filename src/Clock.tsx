@@ -8,10 +8,8 @@ type Props = {
 export const Clock: React.FC<Props> = ({ name }) => {
   const [date, setDate] = useState(new Date());
 
-  let timerId = 0;
-
   useEffect(() => {
-    timerId = window.setInterval(() => {
+    const timerId = window.setInterval(() => {
       setDate(new Date());
       console.info(date.toUTCString().slice(-12, -4));
     }, 1000);
