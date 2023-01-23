@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
-import { Clock } from './clock';
+import { Clock } from './Clock';
 
 function getRandomName(): string {
   const value = Date.now().toString().slice(-4);
