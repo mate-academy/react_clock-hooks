@@ -10,7 +10,8 @@ function getRandomName(): string {
 }
 
 export const App: React.FC = () => {
-  const [clockName, setClockName] = useState('Clock-0');
+  const initialClockName = 'Clock-0';
+  const [clockName, setClockName] = useState(initialClockName);
   const [hasClock, setHasClock] = useState(true);
 
   const onRightClick = (event: MouseEvent) => {
@@ -21,7 +22,7 @@ export const App: React.FC = () => {
   const onClick = () => setHasClock(true);
 
   useEffect(() => {
-    if (hasClock && clockName !== 'Clock-0') {
+    if (hasClock && clockName !== initialClockName) {
       console.debug(`Renamed to ${clockName}`);
     }
   }, [clockName]);
