@@ -34,7 +34,7 @@ export const Clock: React.FC<ClockProps> = ({ clockName }) => {
       {' time is '}
 
       <span className="Clock__time">
-        {(today.toUTCString().slice(-12, -4))}
+        {today.toUTCString().slice(-12, -4)}
       </span>
     </div>
   );

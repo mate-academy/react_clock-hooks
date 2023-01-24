@@ -15,9 +15,7 @@ export const App: React.FC = () => {
 
   const handleRightClick = () => (
     document.addEventListener('contextmenu', (event) => {
-      event.preventDefault(); // not to show the context menu
-
-      // put your code here
+      event.preventDefault();
       setHasClock(false);
     }));
 
