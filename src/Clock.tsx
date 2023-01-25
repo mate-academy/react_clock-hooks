@@ -5,7 +5,7 @@ type Props = {
   clockName: string;
 };
 
-export const Clock:React.FC<Props> = ({ clockName }) => {
+export const Clock: React.FC<Props> = ({ clockName }) => {
   const [time, setTime] = useState(new Date());
   const [prevClockName, setPrevClockName] = useState(clockName);
 
@@ -24,10 +24,8 @@ export const Clock:React.FC<Props> = ({ clockName }) => {
   }, []);
 
   useEffect(() => {
-    if (prevClockName !== clockName) {
-      console.debug(`Renamed to ${clockName}`);
-      setPrevClockName(clockName);
-    }
+    console.debug(`Renamed to ${clockName}`);
+    setPrevClockName(clockName);
   }, [clockName]);
 
   return (
