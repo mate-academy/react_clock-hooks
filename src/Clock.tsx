@@ -13,6 +13,7 @@ export const Clock: React.FC<Props> = ({ clockName }) => {
     const timerId = window.setInterval(() => {
       const newTime = new Date();
 
+
       console.info(newTime.toUTCString().slice(-12, -4));
 
       setTime(newTime);
@@ -24,8 +25,10 @@ export const Clock: React.FC<Props> = ({ clockName }) => {
   }, []);
 
   useEffect(() => {
-    console.debug(`Renamed to ${clockName}`);
-    setPrevClockName(clockName);
+    if (prevClockName !== clockName) {
+      console.debug(`Renamed to ${clockName}`);
+      setPrevClockName(clockName);
+    }
   }, [clockName]);
 
   return (
