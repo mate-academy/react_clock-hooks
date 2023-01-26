@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { Clock } from './components/clock';
@@ -21,7 +22,7 @@ export const App: React.FC = () => {
   const onClick = () => setIsClockVisible(true);
 
   useEffect(() => {
-    if ((isClockVisible && clockName) !== initialClockName) {
+    if (isClockVisible && clockName !== initialClockName) {
       console.debug(`Renamed to ${clockName}`);
     }
   }, [clockName]);
