@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 type Props = {
   clockName: string;
@@ -6,6 +6,7 @@ type Props = {
 
 export const Clock: React.FC<Props> = ({ clockName }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [previousClockName, setPreviousClockName] = useState(clockName);
 
   useEffect(() => {
     const timerId = window.setInterval(() => {
@@ -19,11 +20,19 @@ export const Clock: React.FC<Props> = ({ clockName }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (previousClockName !== clockName) {
+      // eslint-disable-next-line no-console
+      console.debug(`Renamed to ${clockName}`);
+      setPreviousClockName(clockName);
+    }
+  }, [clockName]);
+
   return (
     <div className="Clock">
       <strong className="Clock__name">{clockName}</strong>
 
-      {' time is '}
+      {" time is "}
 
       <span className="Clock__time">
         {currentTime.toUTCString().slice(-12, -4)}
