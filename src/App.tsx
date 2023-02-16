@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import './App.scss';
-import { Clock } from './Clock';
+import React, { useEffect, useState } from "react";
+import "./App.scss";
+import { Clock } from "./Clock";
 
 function getRandomName(): string {
   const value = Date.now().toString().slice(-4);
@@ -9,21 +9,20 @@ function getRandomName(): string {
 }
 
 export const App: React.FC = () => {
-  const [clockName, setClockName] = useState('Clock-0');
+  const [clockName, setClockName] = useState("Clock-0");
   const [hasClock, setHasClock] = useState(true);
 
   const handleRightClick = (event: MouseEvent) => {
     event.preventDefault();
     setHasClock(false);
   };
-
   const handleLeftClick = () => {
     setHasClock(true);
   };
 
   useEffect(() => {
-    document.addEventListener('contextmenu', handleRightClick);
-    document.addEventListener('click', handleLeftClick);
+    document.addEventListener("contextmenu", handleRightClick);
+    document.addEventListener("click", handleLeftClick);
 
     const timerId = window.setInterval(() => {
       setClockName(getRandomName());
@@ -32,8 +31,8 @@ export const App: React.FC = () => {
     return () => {
       window.clearInterval(timerId);
 
-      window.removeEventListener('contextmenu', handleRightClick);
-      window.removeEventListener('click', handleLeftClick);
+      window.removeEventListener("contextmenu", handleRightClick);
+      window.removeEventListener("click", handleLeftClick);
     };
   }, []);
 
