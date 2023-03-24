@@ -41,7 +41,7 @@ export const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log(time);
+    console.info(time);
   }, [time]);
 
   useEffect(() => {
