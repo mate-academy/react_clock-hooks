@@ -42,6 +42,13 @@ export const App: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (hasClock && clockName !== 'Clock-0') {
+      // eslint-disable-next-line no-console
+      console.debug(`Renamed to ${clockName}`);
+    }
+  }, [clockName]);
+
   return (
     <div className="App">
       <h1>React clock</h1>
