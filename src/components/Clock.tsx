@@ -24,8 +24,10 @@ export const Clock: React.FC<Props> = ({ clockName }) => {
   }, []);
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.debug(`Renamed to ${clockName}`);
+    if (clockName !== 'Clock-0') {
+      // eslint-disable-next-line no-console
+      console.debug(`Renamed to ${clockName}`);
+    }
   }, [clockName]);
 
   return (
