@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Clock } from './Clock';
 import './App.scss';
 
@@ -9,41 +9,45 @@ function getRandomName(): string {
   return `Clock-${value}`;
 }
 
+function usePrevious(value: string) {
+  const ref = useRef('clock-0');
+
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+
+  return ref.current;
+}
+
 export const App: React.FC = () => {
-  const [clockName, setTimerName] = useState('Clock-0');
-  const [hasClock, setClockOn] = useState(true);
-  const [prevClockName, setPrevName] = useState('Clock-0');
+  const [clockName, setClockName] = useState('clock-0');
+  const [hasClock, setHasClock] = useState(true);
 
   let timerId = 0;
 
-  const detectKeyDown = (e: MouseEvent) => {
+  const handleKeyDown = (e: MouseEvent) => {
     e.preventDefault();
 
-    if (e.button === 2) {
-      setClockOn(false);
-    } else {
-      setClockOn(true);
-    }
+    setHasClock(e.button !== 2);
   };
 
   useEffect(() => {
-    window.addEventListener('click', detectKeyDown);
-    window.addEventListener('contextmenu', detectKeyDown);
-  });
+    window.addEventListener('click', handleKeyDown);
+    window.addEventListener('contextmenu', handleKeyDown);
+  }, []);
+
+  const prevCount = usePrevious(clockName);
 
   useEffect(() => {
     timerId = window.setInterval(() => {
-      setPrevName(clockName);
-      setTimerName(getRandomName());
+      setClockName(getRandomName());
+
+      if (hasClock) {
+        console.debug(`Renamed from ${prevCount} to ${clockName}`);
+      }
     }, 3300);
 
     return () => clearInterval(timerId);
-  }, [clockName]);
-
-  useMemo(() => {
-    if (hasClock) {
-      console.debug(`Renamed from ${prevClockName} to ${clockName}`);
-    }
   }, [clockName]);
 
   return (

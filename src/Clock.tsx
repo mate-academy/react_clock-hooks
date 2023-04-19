@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Props = {
   name: string;
 };
 
 export const Clock: React.FC<Props> = ({ name }) => {
-  const [clockState, setClockState] = useState('');
+  const [clockState, setClockState] = useState(Date.now().toString().slice(-4));
 
   let timerId = 0;
 
@@ -17,11 +17,9 @@ export const Clock: React.FC<Props> = ({ name }) => {
       setClockState(date.toLocaleTimeString());
     }, 1000);
 
-    return () => clearInterval(timerId);
-  }, [clockState]);
-
-  useMemo(() => {
     console.info(clockState);
+
+    return () => clearInterval(timerId);
   }, [clockState]);
 
   return (
