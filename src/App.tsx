@@ -42,9 +42,9 @@ export const App: React.FC = () => {
 
   return (
     <div className="App">
+      <h1>React clock</h1>
       { hasClock && (
         <>
-          <h1>React clock</h1>
           <Clock clockName={clockName} />
         </>
       )}
