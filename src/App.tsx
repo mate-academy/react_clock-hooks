@@ -1,39 +1,59 @@
 import React from 'react';
 import './App.scss';
+import { Clock } from './components/Clock';
 
-function getRandomName(): string {
-  const value = Date.now().toString().slice(-4);
-
-  return `Clock-${value}`;
+interface AppState {
+  clockName: string;
+  hasClock: boolean;
 }
 
-export const App: React.FC = () => {
-  const today = new Date();
-  let clockName = 'Clock-0';
+export class App extends React.Component<{}, AppState> {
+  state: AppState = {
+    clockName: 'Clock-0',
+    hasClock: true,
+  };
 
-  // This code starts a timer
-  const timerId = window.setInterval(() => {
-    clockName = getRandomName();
-  }, 3300);
+  componentDidMount() {
+    document.addEventListener('click', this.globalHandleLeftClick);
+    document.addEventListener('contextmenu', this.globalHandleRightClick);
+  }
 
-  // this code stops the timer
-  window.clearInterval(timerId);
+  componentWillUnmount() {
+    document.removeEventListener('click', this.globalHandleLeftClick);
+    document.removeEventListener('contextmenu', this.globalHandleRightClick);
+  }
 
-  return (
-    <div className="App">
-      <h1>React clock</h1>
+  toggleClockVisibility = () => {
+    this.setState((prevState) => ({ hasClock: !prevState.hasClock }));
+  };
 
-      <div className="Clock">
-        <strong className="Clock__name">
-          {clockName}
-        </strong>
+  globalHandleLeftClick = (event: MouseEvent) => {
+    event.preventDefault();
+    if (!this.state.hasClock) {
+      this.toggleClockVisibility();
+    }
+  };
 
-        {' time is '}
+  globalHandleRightClick = (event: MouseEvent) => {
+    event.preventDefault();
+    if (this.state.hasClock) {
+      this.toggleClockVisibility();
+    }
+  };
 
-        <span className="Clock__time">
-          {today.toUTCString().slice(-12, -4)}
-        </span>
+  render() {
+    const { hasClock, clockName } = this.state;
+
+    return (
+      <div className="App">
+        {hasClock
+        && (
+          <Clock
+            name={clockName}
+            hasClock={hasClock}
+          />
+        )}
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
