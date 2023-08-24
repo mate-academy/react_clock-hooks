@@ -14,25 +14,13 @@ export const Clock: React.FC<ClockProps>
   const today = new Date().toUTCString().slice(-12, -4);
 
   const [currentTime, setCurrentTime] = useState(today);
-  const [clockName, setClockName] = useState<string>(name);
-
-  const getRandomName = () => {
-    const value = Date.now().toString().slice(-4);
-
-    return `Clock-${value}`;
-  };
 
   useEffect(() => {
-    const timerId = setInterval(() => {
-      setClockName(getRandomName());
-    }, 3300);
-
     const timeInterval = setInterval(() => {
       setCurrentTime(new Date().toUTCString().slice(-12, -4));
     }, 1000);
 
     return () => {
-      clearInterval(timerId);
       clearInterval(timeInterval);
     };
   }, []);
@@ -45,9 +33,9 @@ export const Clock: React.FC<ClockProps>
 
   useEffect(() => {
     if (hasClock) {
-      console.debug(`Clock name changed to ${clockName}`);
+      console.debug(`Clock name changed to ${name}`);
     }
-  }, [clockName, hasClock]);
+  }, [name, hasClock]);
 
   return (
     <>
@@ -55,7 +43,7 @@ export const Clock: React.FC<ClockProps>
       {hasClock && (
         <div className="Clock">
           <strong className="Clock__name">
-            {clockName}
+            {name}
           </strong>
           {' time is '}
           <span className="Clock__time">
