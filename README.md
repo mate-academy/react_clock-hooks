@@ -16,7 +16,6 @@ Create a `Clock` functional component that will update the time every second usi
     }, []);
     ```
 - every second print the time in the DevTools using `console.info` method (**not** the `console.log`);
-- make the `App` a class component;
 - add the `hasClock` property to the `App` state;
 - the `Clock` should be visible only when the `hasClock` is `true`;
 - hide the `Clock` on a right mouse click in the `document` (`contextmenu` event):
