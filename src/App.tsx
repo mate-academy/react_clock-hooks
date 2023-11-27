@@ -1,5 +1,7 @@
-import React from 'react';
+/* eslint-disable */
+import React, { useEffect, useState } from 'react';
 import './App.scss';
+import { Clock } from './components/clock';
 
 function getRandomName(): string {
   const value = Date.now().toString().slice(-4);
@@ -8,32 +10,45 @@ function getRandomName(): string {
 }
 
 export const App: React.FC = () => {
-  const today = new Date();
-  let clockName = 'Clock-0';
+  const initialClockName = 'Clock-0';
+  const [clockName, setClockName] = useState(initialClockName);
+  const [isClockVisible, setIsClockVisible] = useState(true);
 
-  // This code starts a timer
-  const timerId = window.setInterval(() => {
-    clockName = getRandomName();
-  }, 3300);
+  const onRightClick = (event: MouseEvent) => {
+    event.preventDefault();
+    setIsClockVisible(false);
+  };
 
-  // this code stops the timer
-  window.clearInterval(timerId);
+  const onClick = () => setIsClockVisible(true);
+
+  useEffect(() => {
+    if (isClockVisible && clockName !== initialClockName) {
+      console.debug(`Renamed to ${clockName}`);
+    }
+  }, [clockName]);
+
+  useEffect(() => {
+    document.addEventListener('click', onClick);
+    document.addEventListener('contextmenu', onRightClick);
+
+    const timerId = window.setInterval(
+      () => setClockName(getRandomName()),
+      3300,
+    );
+
+    return () => {
+      document.removeEventListener('click', onClick);
+      document.removeEventListener('contextmenu', onRightClick);
+      window.clearInterval(timerId);
+    };
+  }, []);
 
   return (
     <div className="App">
-      <h1>React clock</h1>
-
-      <div className="Clock">
-        <strong className="Clock__name">
-          {clockName}
-        </strong>
-
-        {' time is '}
-
-        <span className="Clock__time">
-          {today.toUTCString().slice(-12, -4)}
-        </span>
-      </div>
+      <h1>React Clock</h1>
+      {isClockVisible && (
+        <Clock name={clockName} />
+      )}
     </div>
   );
 };
